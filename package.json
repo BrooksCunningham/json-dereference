@@ -1,0 +1,14 @@
+{
+  "name": "json-dereference",
+  "version": "1.0.0",
+  "description": "derefence an openapi document",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^9.0.9"
+  }
+}
