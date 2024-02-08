@@ -1,18 +1,29 @@
 // Write to the file locally
 const fs = require('fs')
 
-// Needed for parsing a ref
+// Needed for parsing a ref. https://github.com/APIDevTools/json-schema-ref-parser
 const $RefParser = require("@apidevtools/json-schema-ref-parser");
 
-// Must specify the openapi_document that may include external or references
-const openapi_document = require("./petstore.json");
+// TODO parse yaml files
+const yaml = require('js-yaml')
+
+const { program } = require('commander');
 
 (async () => {
     try {
-        let schema = await $RefParser.dereference(openapi_document);
-        console.log(schema.paths['/pet']['post'].requestBody.content['application/json']);
+        program
+        .requiredOption('-f, --infile', 'Input file must be specified');
 
-        // console.log(JSON.stringify(schema))
+        program.parse();
+      
+        const options = program.opts();
+        // const limit = options.first ? 1 : undefined;
+        console.log(program.args[0]);
+
+        // load the file from the location in the argument.
+        const openapi_document = yaml.load(fs.readFileSync(program.args[0], 'utf8'));
+
+        let schema = await $RefParser.dereference(openapi_document);
 
         let stringified_openapi_document = JSON.stringify(schema, null, 2);
 
@@ -27,10 +38,6 @@ const openapi_document = require("./petstore.json");
       catch(err) {
         console.error(err);
       }
-
-      
-    // const content = 'Some content!'
-
 
 }
 )();
